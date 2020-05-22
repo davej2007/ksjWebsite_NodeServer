@@ -1,0 +1,26 @@
+{
+  "name": "ksj_server",
+  "version": "1.0.0",
+  "description": "KSJ Node Server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davej2007/ksjWebsite_NodeServer.git"
+  },
+  "author": "dave james <dave-james@virginmedia.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davej2007/ksjWebsite_NodeServer/issues"
+  },
+  "homepage": "https://github.com/davej2007/ksjWebsite_NodeServer#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
+}
