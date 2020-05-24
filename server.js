@@ -3,31 +3,31 @@ const http = require('http');
 
 const express = require ('express');
 const morgan = require('morgan');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-// const config = require('./API/config/database'); 
+const config = require('./API/config/database'); 
 // const jwt = require('jsonwebtoken');
 const app = express();
 // const server = http.createServer(app);
 // **** Port Variables
 // const hostname = 'localhost';
 const PORT = process.env.PORT || 8080;
-// const dbURI = process.env.MONGODB_URI || config.heroku;
+const dbURI = process.env.MONGODB_URI || config.heroku;
 // **** API Routes
-// const authRoute = require('./API/routes/auth');
-// const auctionRoute = require('./API/routes/auction');
+const authRoute = require('./API/routes/auth');
+const operatorRoute = require('./API/routes/operator');
 // const visitsRoute = require('./API/routes/visits');
 
 // **** Database Connection
-// mongoose.connect(dbURI, { useUnifiedTopology: true, useNewUrlParser: true }, (err) => {
-//     if (err){
-//         console.log('DataBase Connection Error :', err);
-//     } else {
-//         console.log('Successfully Connected to Database : ',dbURI);
-//     }
-// });
+mongoose.connect(dbURI, { useUnifiedTopology: true, useNewUrlParser: true }, (err) => {
+    if (err){
+        console.log('DataBase Connection Error :', err);
+    } else {
+        console.log('Successfully Connected to Database : ',dbURI);
+    }
+});
 // **** Middleware 
 app.use(cors());
 app.use(morgan('dev'));
@@ -70,8 +70,8 @@ app.use((req, res,next)=>{
 //     }
 });
 // **** Router routes
-// app.use('/api/auth', authRoute);
-// app.use('/api/auctions', auctionRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/operator', operatorRoute);
 // app.use('/api/visits', visitsRoute);
 // **** Main routes
 app.get('*', (req, res) => {
