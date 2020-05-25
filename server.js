@@ -44,30 +44,32 @@ app.use(function (req, res, next) {
 });
 // **** Token Decode Middleware
 app.use((req, res,next)=>{
-    next();
-    // console.log('Node Server Middle Ware : ', req.headers['xtoken']);
-//     if (!req.headers['xtoken']){
-//         req.decoded = {valid:false, decoded:null, admin:null, message: 'No Token Supplied'};
-//         next();
-//     } else {
-//         let token = req.headers['xtoken'].split(' ');
-//         let TOKEN = token[1] || 'false'
-//         if(TOKEN !='false'){
-//             jwt.verify(TOKEN, config.tokenKey, function(err, user) {
-//                 if(err){
-//                     req.decoded = {valid:false, userName:null, admin:null, message: 'Token Error '+ err};
-//                     next();
+        if (!req.headers['xtoken']){
+        req.decoded = {valid:false, decoded:null, admin:null, message: 'No Token Supplied'};
+        next();
+    } else {
+        let token = req.headers['xtoken'].split(' ');
+        let TOKEN = token[1] || 'false'
+        
+
+        if(TOKEN !='false'){
+            console.log('Node Server Middle Ware : ', TOKEN);
+            next();
+            // jwt.verify(TOKEN, config.tokenKey, function(err, user) {
+            //     if(err){
+            //         req.decoded = {valid:false, userName:null, admin:null, message: 'Token Error '+ err};
+            //         next();
 //                 } else {
 //                     console.log(user)
 //                     req.decoded = {valid:true, userName:user.user, admin:user.admin, message: 'Token Decoded'};
 //                     next();
 //                 }
 //             });
-//         } else {
-//             req.decoded = {valid:false, userName:null, admin:null, message: 'No User Token Supplied'};
-//             next();
-//         }
-//     }
+        } else {
+            req.decoded = {valid:false, userName:null, admin:null, message: 'No User Token Supplied'};
+            next();
+        }
+    }
 });
 // **** Router routes
 app.use('/api/auth', authRoute);
