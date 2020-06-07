@@ -12,6 +12,7 @@ router.get('/decodeToken', (req,res)=>{
 });
 // Operator Log In
 router.post('/operatorLogIn',(req,res)=>{
+    console.log('body :',req.body)
     if (req.body.userID == null || req.body.UserID == '') {
         res.json({success:false, message: 'No User Identification Entered' });
     } else if (req.body.password == null || req.body.password == '') {
@@ -23,6 +24,7 @@ router.post('/operatorLogIn',(req,res)=>{
                 if (err) {
                     res.status(401).send({ message: 'DB Error : ' + err });
                 } else {
+                    console.log('operator Found ', operator)
                     if (!operator){
                         res.json({success:false, message: 'Invalid Operator User ID !' });
                     } else {
@@ -30,18 +32,18 @@ router.post('/operatorLogIn',(req,res)=>{
                         if (!validPassword){
                             res.json({success:false, message: 'Invalid Password' }); 
                         } else {
-                            // create web token.  name password admin site
-                            let OperatorJson = {
-                                id:operator._id,
-                                number:operator.number,
-                                name:operator.name,
-                                admin:operator.admin}  
-                            let token = jwt.sign({operator:OperatorJson}, config.tokenKey );
-                            console.log('Succcess .... ', token)
-                            res.json({
-                                success:true,
-                                operator:operator.name,
-                                token:{operator:token, team:null}});
+                            // create web token
+                            let Json = {
+                                operator_id:operator._id,
+                                operatorID:operator.userID,
+                                operatorname:operator.name,
+                                team_id:null,
+                                teamID:null,
+                                teamName:null,
+                                admin:operator.admin } 
+                                console.log(Json) 
+                            let token = jwt.sign(Json, config.tokenKey );
+                            res.json({success:true, token:token, operator:operator.name, message: 'Success' });
                         }
                     }
                 }
