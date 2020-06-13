@@ -1,40 +1,23 @@
 const express = require('express');
 const router  = express.Router();
-const PARTY = require('../models/party');
+const TEAM = require('../models/team');
 
 router.get('/test', (req,res) =>{
-    res.send('from API / Party route');
+    res.send('from API / TEAM route');
 });
-router.post('/checkParty', (req,res)=>{
-    if (req.body.partyID == null || req.body.partyID == '') {
-        res.json({success:false, message: 'No Party ID Entered' });
+router.post('/checkTeamName', (req,res)=>{
+    console.log(req.body)
+    if (req.body.teamName == null || req.body.teamName == '') {
+        res.json({success:false, message: 'No Team Name Entered' });
     } else {
-        PARTY.find({partyID:req.body.partyID}).select('_id date').exec((err,party)=>{
+        TEAM.findOne({teamID:req.body.teamName}).select('_id').exec((err,team)=>{
             if(err) {
                 res.status(401).send({ message: 'DB Error : ' + err });
             } else {
-                if(party.length==0){
-                    res.json({success:true, message:'Party ID Not Used'});
+                if(!team){
+                    res.json({success:true, message:'Team Name OK'});
                 } else {
-                    res.json({success:false, message:'Party ID Found', party})
-                }
-            }
-        })
-    }
-
-});
-router.post('/checkPartyID', (req,res)=>{
-    if (req.body.partyID == null || req.body.partyID == '') {
-        res.json({success:false, message: 'No Party ID Entered' });
-    } else {
-        PARTY.findOne({partyID:req.body.partyID}).select('_id date title ').exec((err,party)=>{
-            if(err) {
-                res.status(401).send({ message: 'DB Error : ' + err });
-            } else {
-                if(!party){
-                    res.json({success:false, message:'Party ID Not Found'});
-                } else {
-                    res.json({success:true, message:'Party ID Found', party})
+                    res.json({success:false, message:'Team Name Already In Use'})
                 }
             }
         })

@@ -19,6 +19,7 @@ const dbURI = process.env.MONGODB_URI || config.heroku;
 const authRoute = require('./API/routes/auth');
 const operatorRoute = require('./API/routes/operator');
 const partyRoute = require('./API/routes/party');
+const teamRoute = require('./API/routes/team');
 
 // **** Database Connection
 mongoose.connect(dbURI, { useUnifiedTopology: true, useNewUrlParser: true }, (err) => {
@@ -77,6 +78,7 @@ app.use((req, res,next)=>{
 app.use('/api/auth', authRoute);
 app.use('/api/operator', operatorRoute);
 app.use('/api/party', partyRoute);
+app.use('/api/team', teamRoute);
 // **** Main routes
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/index.html'));
